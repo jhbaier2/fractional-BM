@@ -1,16 +1,16 @@
 using Random, Plots, GSL, Distributions, LinearAlgebra
 
-autocov = (s,t,H) -> 1/2*(t^(2H) + s^(2H) - (t-s)^(2H))
-
-function hosking(H, δt, n, m, gn)
+function autocov(δt, H)
+    if δt<0
+        δt = abs(δt)
+    elseif δt==0
+        return 1.
+    else
+        γₖ = 1/2*((δt+1)^(2H) + abs(δt-1)^(2H) - (2δt)^(2H))
+        return γₖ
+    end
 end
 
-function cholesky(H, δt, n, m, gn)
-    
-end
-
-function davies_harte(H, δt, n, m, gn)
-end
 
 function fgn(H, T, n, m, method::Function; seed=nothing, kwargs...)
     rng = MersenneTwister(seed)
@@ -25,9 +25,9 @@ function fgn(H, T, n, m, method::Function; seed=nothing, kwargs...)
 end
 
 begin
-    m = 100
+    m = 10
     n = 1
     seed = 1234
-    method = hosking
+    H = 0.6
 
 end
