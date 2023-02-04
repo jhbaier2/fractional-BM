@@ -12,7 +12,7 @@ function autocov(δt, H)
 end
 
 
-function fgn(H, T, n, m, method::Function; seed=nothing, kwargs...)
+function fgn(H, T, n, m; seed=nothing, kwargs...)
     rng = MersenneTwister(seed)
     δt = T/n
     Gn = randn(rng, (m,n))
@@ -28,6 +28,6 @@ begin
     m = 10
     n = 1
     seed = 1234
-    H = 0.6
+    H = 0.3
 
 end
