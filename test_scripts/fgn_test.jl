@@ -19,7 +19,7 @@ function Λ(H,N)
     M = 2N - 2
     C = zeros(Float64, (1,M))
     C[1:N] .= autocov.(0:N-1, H)
-    C[N+1:M] .= reverse(C[2:N-1], dims=2)
+    C[N+1:M] .= reverse(C[2:N-1])
     return sqrt.(real(fft(C)))
 end
 
@@ -42,5 +42,5 @@ begin
     npath = 1
     seed = 1234
     H = 0.3
-
+    Λ(H,N)
 end
