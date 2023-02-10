@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.9
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
@@ -8,7 +8,7 @@ using InteractiveUtils
 using Random, Plots, FFTW
 
 # ╔═╡ 12f4b60b-4ae7-4e55-863b-426617b408f6
-q = 2
+q = 10
 
 # ╔═╡ 63bdea4a-223d-4077-a148-90b0a16a3d92
 N = 2^q + 1
@@ -68,13 +68,13 @@ end
 path = fgn(Λ, npath)
 
 # ╔═╡ f08656f6-cbc5-4313-aedf-1b37b7622696
-plot(path; legend=false)
+plot(path'; legend=false)
 
 # ╔═╡ 19844bd2-f1e4-4431-a635-cae0f17973c8
 fbm = cumsum(path; dims=2)
 
 # ╔═╡ 106f6a9b-31e8-4b40-9cd2-ec201dc6f361
-plot(fbm; legend=false)
+plot(fbm'; legend=false)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
