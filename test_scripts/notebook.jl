@@ -17,7 +17,7 @@ q = 10
 N = 2^q + 1
 
 # ╔═╡ 72c9e5e3-b092-450e-8b56-b1ea53f8a572
-npath = 1
+npath = 5
 
 # ╔═╡ 696e5181-67e3-4555-b259-6c33ae5cb121
 seed = 1234
@@ -26,6 +26,14 @@ seed = 1234
 H = 0.4
 
 
+
+# ╔═╡ 613d380f-81cb-463d-8b24-e9369cfd467a
+# static rands
+rands = [[0.5377 -1.3077 -1.3499 -0.205 0.6715 1.0347 0.8884 1.4384];
+[1.8339 -0.4336 3.0349 -0.1241 -1.2075 0.7269 -1.1471 0.3252];
+[-2.2588 0.3426 0.7254 1.4897 0.7172 -0.3034 -1.0689 -0.7549];
+[0.8622 3.5784 -0.0631 1.409 1.6302 0.2939 -0.8095 1.3703];
+[0.3188 2.7694 0.7147 1.4172 0.4889 -0.7873 -2.9443 -1.7115]]
 
 # ╔═╡ 6fe246d1-db65-41cb-80ed-aaa7f904d982
 function autocov(n, H)
@@ -47,27 +55,31 @@ end
 Λ = Lambda(H,N)
 
 # ╔═╡ 645318b4-f414-448d-869b-513d427eb9d1
-function fgn(Λ, NT; seed=0)
+function fgn(Λ, NT; seed=0, srand=nothing)
     rng = MersenneTwister(seed)
     M = size(Λ, 2)
-    rands = randn(rng, (NT, M))
-    b = ifft(rands)
+	if srand==nothing
+    	rands = randn(rng, (NT, M))
+	else
+		rands = srand
+	end
+    b = ifft(rands, 2)
     a = b.*Λ
     fGn = real(fft(a,2))[:, 1:Int(M/2)]
     return fGn  
 end
 
 # ╔═╡ 058d2760-9a5b-4795-929a-70e3742f2d8c
-path = vec(fgn(Λ, npath))
+path = fgn(Λ, npath)
 
 # ╔═╡ f08656f6-cbc5-4313-aedf-1b37b7622696
-plot(path; legend=false)
+plot(path'; legend=false)
 
 # ╔═╡ 19844bd2-f1e4-4431-a635-cae0f17973c8
-fbm = cumsum(path)
+fbm = cumsum(path; dims=2)
 
 # ╔═╡ 106f6a9b-31e8-4b40-9cd2-ec201dc6f361
-plot(fbm; legend=false)
+plot(fbm'; legend=false)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1048,6 +1060,7 @@ version = "1.4.1+0"
 # ╠═72c9e5e3-b092-450e-8b56-b1ea53f8a572
 # ╠═696e5181-67e3-4555-b259-6c33ae5cb121
 # ╠═6aa719e6-3038-43f6-b723-6894e465c55a
+# ╠═613d380f-81cb-463d-8b24-e9369cfd467a
 # ╠═6fe246d1-db65-41cb-80ed-aaa7f904d982
 # ╠═2c9261d2-f4b9-4a14-8edf-b50992304004
 # ╠═777665ee-3735-4da9-af1f-8e60e3c78e92
