@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.9
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
@@ -9,6 +9,9 @@ using Random, Plots, FFTW
 
 # ╔═╡ 12f4b60b-4ae7-4e55-863b-426617b408f6
 q = 10
+
+
+
 
 # ╔═╡ 63bdea4a-223d-4077-a148-90b0a16a3d92
 N = 2^q + 1
@@ -20,7 +23,9 @@ npath = 1
 seed = 1234
 
 # ╔═╡ 6aa719e6-3038-43f6-b723-6894e465c55a
-H = 0.3
+H = 0.4
+
+
 
 # ╔═╡ 6fe246d1-db65-41cb-80ed-aaa7f904d982
 function autocov(n, H)
@@ -45,7 +50,7 @@ end
 function fgn(Λ, NT; seed=0)
     rng = MersenneTwister(seed)
     M = size(Λ, 2)
-    rands = randn(rng, NT, M)
+    rands = randn(rng, (NT, M))
     b = ifft(rands)
     a = b.*Λ
     fGn = real(fft(a,2))[:, 1:Int(M/2)]
@@ -80,7 +85,7 @@ Plots = "~1.38.4"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
 project_hash = "a6555e52b7d221717adf2c08d2995492d72170d1"
 
@@ -168,7 +173,7 @@ version = "4.6.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -764,7 +769,7 @@ version = "1.0.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
