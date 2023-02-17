@@ -24,19 +24,6 @@ function autocov(s, t, H)
     return γₕ
 end
 
-function fgn(H, T, N; npath=1, seed=nothing, kwargs...)
-    # fractional gaussian noise
-    rng = MersenneTwister(seed)
-    δt = T/n
-    Gn = randn(rng, (N,npath))
-    if H==0.5
-        fGn = Gn
-    else
-        
-    end
-    return fGn
-end
-
 function fractional_guassian_noise(Λ, NT)
 
     rng = MersenneTwister(0) #matlab default rng
