@@ -64,15 +64,3 @@ function fractional_brownian_motion(H, T, N; npath=1, seed=nothing, kwargs...)
     fBm = cumsum(fGn; dims=1)
     return fBm
 end
-
-begin
-    q = 10
-    N = 2^q + 1
-    H = 0.3
-    T = 1
-    lam = Lambda(H,N)
-    # fgn_i = fractional_gaussian_noise(lam, 5, T)
-    fgn_i = fractional_gaussian_noise(H, N, T; npath=5)
-    fbm = cumsum(fgn_i; dims = 1)
-    plot(fbm; legend=false)
-end
