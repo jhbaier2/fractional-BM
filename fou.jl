@@ -21,7 +21,7 @@ function fOU(m, α, v, H, N, T; X₀=0, npath=1, seed=nothing)
     end
     for j in 1:npath
         for i in 2:N-1
-            Xₜ[i,j] = α*(m - Xₜ[i-1,j])*δt + v*(Wᴴ[i,j] - Wᴴ[i-1,j])
+            Xₜ[i,j] = α*(m - Xₜ[i-1,j])*δt + v*(Wᴴ[i,j])
         end
     end
     return Xₜ
