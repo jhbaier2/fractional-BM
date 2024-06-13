@@ -10,10 +10,10 @@ using Random, GSL, Plots, FFTW
 # ╔═╡ 4005f9d3-95ac-4ab6-b621-d3f7add67243
 begin
 	H = 0.1
-	q = 10
+	q = 7
 	n = 2^q + 1
-	t = 1;
-end
+	t = 1
+end;
 
 # ╔═╡ 6c4b762b-73c4-4e2f-917f-860ebd8d8a56
 function cov(H, t)  
@@ -49,13 +49,22 @@ function fGN(H, Λ, n, t; seed=1234)
 end
 
 # ╔═╡ 36e6791a-f68e-4984-8f84-bc9d0eab57c3
-fgn = fGN(H, Λ, 1, t);
+fgn = fGN(H, Λ, 1, t)
 
 # ╔═╡ 11f02f55-d232-40a6-a4b6-285088277108
-fbm = cumsum(fgn; dims=1)
+fbm = cumsum(fgn; dims=2)
 
 # ╔═╡ 60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
 plot(fbm')
+
+# ╔═╡ 596957e3-e6aa-4d6a-a9bf-ebe5fcabd492
+bm = randn((1, 100))
+
+# ╔═╡ 027ec7ad-21e2-4470-a05a-b91f3218792e
+plot(cumsum(bm'; dims=1))
+
+# ╔═╡ 1b6502e6-94d4-4f4c-8235-5054cbbcefac
+
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -75,9 +84,9 @@ Plots = "~1.40.4"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "649b84f664c1a24ee29aeb3584b24c4749bc4057"
+project_hash = "740419d998aefd040f248c35740be77aa884ed10"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
@@ -163,7 +172,7 @@ version = "4.15.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConcurrentUtilities]]
 deps = ["Serialization", "Sockets"]
@@ -783,7 +792,7 @@ version = "1.0.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1143,5 +1152,8 @@ version = "1.4.1+1"
 # ╠═36e6791a-f68e-4984-8f84-bc9d0eab57c3
 # ╠═11f02f55-d232-40a6-a4b6-285088277108
 # ╠═60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
+# ╠═596957e3-e6aa-4d6a-a9bf-ebe5fcabd492
+# ╠═027ec7ad-21e2-4470-a05a-b91f3218792e
+# ╠═1b6502e6-94d4-4f4c-8235-5054cbbcefac
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
