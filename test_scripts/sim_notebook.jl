@@ -10,7 +10,7 @@ using Random, GSL, Plots, FFTW
 # ╔═╡ 4005f9d3-95ac-4ab6-b621-d3f7add67243
 begin
 	H = 0.1
-	q = 7
+	q = 14
 	n = 2^q + 1
 	t = 1
 end;
@@ -46,25 +46,33 @@ function fGN(H, Λ, n, t; seed=1234)
 	δt = t/(M/2)
 	idx = 1:M÷2
 	return ξ[:,idx] .* δt^H
-end
+end;
 
 # ╔═╡ 36e6791a-f68e-4984-8f84-bc9d0eab57c3
-fgn = fGN(H, Λ, 1, t)
+sim = fGN(H, Λ, 1, t)
+
+# ╔═╡ bdd8fb74-df4e-4199-a816-fc713e5489eb
+fgn = append!([0.], sim)
 
 # ╔═╡ 11f02f55-d232-40a6-a4b6-285088277108
-fbm = cumsum(fgn; dims=2)
+fbm = cumsum(fgn; dims=1)
 
 # ╔═╡ 60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
-plot(fbm')
-
-# ╔═╡ 596957e3-e6aa-4d6a-a9bf-ebe5fcabd492
-bm = randn((1, 100))
-
-# ╔═╡ 027ec7ad-21e2-4470-a05a-b91f3218792e
-plot(cumsum(bm'; dims=1))
+plot(fbm)
 
 # ╔═╡ 1b6502e6-94d4-4f4c-8235-5054cbbcefac
+function h_estimator(fgn; sgn=-1)
+	n = length(fgn)
+	tmp = fgn[1:end-1] .* fgn[2:end]
+	Sₙ = sum(tmp .< 0)
+	θ = (π * Sₙ) / (n-1)
+	r = sgn * abs(cos(θ))
+	Ĥ = 0.5*(1 + log2(1 + r))
+	return Ĥ
+end
 
+# ╔═╡ 8c0eaffc-d3b5-4acb-bfd5-3067daef379d
+h_estimator(fgn)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1150,10 +1158,10 @@ version = "1.4.1+1"
 # ╠═7d3099b7-27d0-4b72-a546-529c0cf16129
 # ╠═d58ab504-d608-415a-9d1d-6b0738f6ba60
 # ╠═36e6791a-f68e-4984-8f84-bc9d0eab57c3
+# ╠═bdd8fb74-df4e-4199-a816-fc713e5489eb
 # ╠═11f02f55-d232-40a6-a4b6-285088277108
 # ╠═60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
-# ╠═596957e3-e6aa-4d6a-a9bf-ebe5fcabd492
-# ╠═027ec7ad-21e2-4470-a05a-b91f3218792e
 # ╠═1b6502e6-94d4-4f4c-8235-5054cbbcefac
+# ╠═8c0eaffc-d3b5-4acb-bfd5-3067daef379d
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
