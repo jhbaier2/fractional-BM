@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ b2f8d120-213c-11ef-2371-2b46f8fa5189
-using Random, GSL, Plots, FFTW
+using Random, Plots, FFTW
 
 # ╔═╡ 4005f9d3-95ac-4ab6-b621-d3f7add67243
 begin
@@ -58,7 +58,7 @@ fgn = append!([0.], sim)
 fbm = cumsum(fgn; dims=1)
 
 # ╔═╡ 60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
-plot(fbm)
+plot(fbm; legend=false)
 
 # ╔═╡ 1b6502e6-94d4-4f4c-8235-5054cbbcefac
 function h_estimator(fgn; sgn=-1)
@@ -69,7 +69,7 @@ function h_estimator(fgn; sgn=-1)
 	r = sgn * abs(cos(θ))
 	Ĥ = 0.5*(1 + log2(1 + r))
 	return Ĥ
-end
+end;
 
 # ╔═╡ 8c0eaffc-d3b5-4acb-bfd5-3067daef379d
 h_estimator(fgn)
@@ -78,13 +78,11 @@ h_estimator(fgn)
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
-GSL = "92c85e6c-cbff-5e0c-80f7-495c94daaecd"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
 FFTW = "~1.8.0"
-GSL = "~1.0.1"
 Plots = "~1.40.4"
 """
 
@@ -94,7 +92,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "740419d998aefd040f248c35740be77aa884ed10"
+project_hash = "f68fa54fb63b043cbd456c88863c659047fd9376"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
@@ -320,18 +318,6 @@ deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "
 git-tree-sha1 = "278e5e0f820178e8a26df3184fcb2280717c79b1"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
 version = "0.73.5+0"
-
-[[deps.GSL]]
-deps = ["GSL_jll", "Libdl", "Markdown"]
-git-tree-sha1 = "3ebd07d519f5ec318d5bc1b4971e2472e14bd1f0"
-uuid = "92c85e6c-cbff-5e0c-80f7-495c94daaecd"
-version = "1.0.1"
-
-[[deps.GSL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "56f1e2c9e083e0bb7cf9a7055c280beb08a924c0"
-uuid = "1b77fbbe-d8ee-58f0-85f9-836ddc23a7a4"
-version = "2.7.2+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
