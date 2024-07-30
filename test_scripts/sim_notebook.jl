@@ -10,7 +10,7 @@ using Random, Plots, FFTW
 # ╔═╡ 4005f9d3-95ac-4ab6-b621-d3f7add67243
 begin
 	H = 0.1
-	q = 14
+	q = 10
 	n = 2^q + 1
 	t = 1
 end;
@@ -54,6 +54,9 @@ sim = fGN(H, Λ, 1, t)
 # ╔═╡ bdd8fb74-df4e-4199-a816-fc713e5489eb
 fgn = append!([0.], sim)
 
+# ╔═╡ 70039803-ac27-4b19-aeb4-6f936304f7ee
+N=size(fgn)
+
 # ╔═╡ 11f02f55-d232-40a6-a4b6-285088277108
 fbm = cumsum(fgn; dims=1)
 
@@ -74,6 +77,37 @@ end;
 # ╔═╡ 8c0eaffc-d3b5-4acb-bfd5-3067daef379d
 h_estimator(fgn)
 
+# ╔═╡ 58669095-94da-4c78-9c0b-0810f263efcb
+function r(t)
+	return t^(2H)
+end;
+
+# ╔═╡ eb28a0c0-8e97-4c7e-813a-b99f10119789
+function sigma(fgn, T, σ₀, ξ; α=1)
+	N = size(fgn)[1]
+	δt = T/N
+	σₜ = [σ₀, zeros(N)...]
+	for i in 1:N
+		rₜ = r(δt * i)
+		Bᴴ = fgn[i]
+		σₜ[i+1] = σ₀ * exp(ξ*Bᴴ - 0.5α * ξ^2 * rₜ)
+	end
+	return σₜ
+end;
+
+# ╔═╡ d2021578-2053-4f74-9004-98912b0faaa1
+begin
+	σ₀ = 0.15
+	ξ = 0.8
+	α = 1
+end;
+
+# ╔═╡ 4e60fa7e-5c86-46fb-bba8-e1e865cef5aa
+σ = sigma(fgn, 1, σ₀, ξ; α=α)
+
+# ╔═╡ 49c06d1d-df5d-40a8-a87e-36af6c0b5df0
+plot(σ)
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -90,7 +124,7 @@ Plots = "~1.40.4"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.5"
+julia_version = "1.8.0"
 manifest_format = "2.0"
 project_hash = "f68fa54fb63b043cbd456c88863c659047fd9376"
 
@@ -178,7 +212,7 @@ version = "4.15.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "0.5.2+0"
 
 [[deps.ConcurrentUtilities]]
 deps = ["Serialization", "Sockets"]
@@ -786,7 +820,7 @@ version = "1.0.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1145,9 +1179,15 @@ version = "1.4.1+1"
 # ╠═d58ab504-d608-415a-9d1d-6b0738f6ba60
 # ╠═36e6791a-f68e-4984-8f84-bc9d0eab57c3
 # ╠═bdd8fb74-df4e-4199-a816-fc713e5489eb
+# ╠═70039803-ac27-4b19-aeb4-6f936304f7ee
 # ╠═11f02f55-d232-40a6-a4b6-285088277108
 # ╠═60e8fd4b-3ccd-48cb-83aa-5fc1d3a326a2
 # ╠═1b6502e6-94d4-4f4c-8235-5054cbbcefac
 # ╠═8c0eaffc-d3b5-4acb-bfd5-3067daef379d
+# ╠═58669095-94da-4c78-9c0b-0810f263efcb
+# ╠═eb28a0c0-8e97-4c7e-813a-b99f10119789
+# ╠═d2021578-2053-4f74-9004-98912b0faaa1
+# ╠═4e60fa7e-5c86-46fb-bba8-e1e865cef5aa
+# ╠═49c06d1d-df5d-40a8-a87e-36af6c0b5df0
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
